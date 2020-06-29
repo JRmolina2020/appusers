@@ -11,7 +11,7 @@
           :data="permissions"
           :currentPage.sync="currentPage"
           :filters="filters"
-          :pageSize="5"
+          :pageSize="4"
           @totalPagesChanged="totalPages = $event"
           class="table table-striped"
         >
@@ -34,7 +34,11 @@
         </v-table>
       </div>
       <div class="box-footer clearfix">
-        <smart-pagination :currentPage.sync="currentPage" :totalPages="totalPages" />
+        <smart-pagination
+          :currentPage.sync="currentPage"
+          :maxPageLinks="6"
+          :totalPages="totalPages"
+        />
       </div>
     </div>
   </div>
@@ -42,7 +46,7 @@
 <script>
 import SearchItem from "../utilities/search";
 import Loader from "../utilities/loader";
-import { mapState, mapMutations, mapActions } from "vuex";
+import { mapState } from "vuex";
 export default {
   name: "list",
   components: {
@@ -56,7 +60,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["filters", "permissions", "status", "urlpermissions"])
+    ...mapState(["filters", "permissions", "status"])
   },
   created() {
     this.getlist();
@@ -64,19 +68,6 @@ export default {
   methods: {
     getlist() {
       this.$store.dispatch("Permissionsactions");
-    },
-    async remove(row) {
-      let url = this.urlpermissions + row;
-      let response = await axios.delete(url);
-      try {
-        this.getlist();
-        Swal.fire({
-          title: `${response.data.message}`,
-          icon: "success"
-        });
-      } catch (error) {
-        console.log(error);
-      }
     }
   }
 };
