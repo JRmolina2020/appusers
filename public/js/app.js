@@ -56557,7 +56557,7 @@ var render = function() {
                       data: _vm.roles,
                       currentPage: _vm.currentPage,
                       filters: _vm.filters,
-                      pageSize: 5
+                      pageSize: 4
                     },
                     on: {
                       "update:currentPage": function($event) {
@@ -57037,7 +57037,7 @@ var render = function() {
                       data: _vm.users,
                       currentPage: _vm.currentPage,
                       filters: _vm.filters,
-                      pageSize: 5
+                      pageSize: 4
                     },
                     on: {
                       "update:currentPage": function($event) {
