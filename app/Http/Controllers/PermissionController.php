@@ -20,7 +20,6 @@ class PermissionController extends Controller
         return $permissions;
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
@@ -29,11 +28,9 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-
         $permission = Permission::create([
             'name' => $request['name'],
         ]);
-
         return response()->json(['message' => 'El permiso ha sido creado'], 200);
     }
 
@@ -47,23 +44,10 @@ class PermissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $permission = Permission::find($id);
+        $permission = Permission::find($id, ['id', 'name']);
         $permission->fill([
             'name' => request('name'),
         ])->save();
         return response()->json(['message' => 'El permiso ha sido modificado'], 201);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $permission = Permission::find($id);
-        $permission->delete();
-        return response()->json(["message" => "El permiso ha sido eliminado"]);
     }
 }

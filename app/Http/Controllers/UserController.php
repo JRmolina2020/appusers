@@ -17,7 +17,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
-        $users = User::with('roles')->orderBy('id', 'desc')->get();
+        $users = User::with('roles:id,name')->orderBy('id', 'desc')->get();
         return response()->json($users);
     }
 
@@ -49,7 +49,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         if (!$request->ajax()) return redirect('/');
-        $user = User::find($id);
+        $user = User::find($id, ['id', 'name', 'surname', 'email']);
         $user->fill([
             'name' => request('name'),
             'surname' => request('surname'),
@@ -60,20 +60,20 @@ class UserController extends Controller
     }
     public function destroy($id)
     {
-        $user = User::find($id);
+        $user = User::find($id, ['id']);
         $user->delete();
         return response()->json(["message" => "Ha sido eliminado"]);
     }
     public function available($id)
     {
-        $users = User::findOrFail($id);
+        $users = User::findOrFail($id, ['id']);
         $users->status = '1';
         $users->save();
         return response()->json(["message" => "Ha sido activado"]);
     }
     public function locked($id)
     {
-        $users = User::findOrFail($id);
+        $users = User::findOrFail($id, ['id']);
         $users->status = '0';
         $users->save();
         return response()->json(["message" => "Ha sido Bloqueado"]);
@@ -81,7 +81,7 @@ class UserController extends Controller
 
     public function updatepassword(Request $request, $id)
     {
-        $user = User::find($id);
+        $user = User::find($id, ['id', 'password']);
         $user->fill([
             $user['password'] = bcrypt($request['password'])
 

@@ -12,7 +12,7 @@
       <section slot="body">
         <form
           method="POST"
-          @submit.prevent="add(form.id)"
+          @submit.prevent="add(form.id,actions)"
           autocomplete="off"
           enctype="multipart/form-data"
         >
@@ -132,6 +132,7 @@
 import ModalResource from "../utilities/modal.vue";
 import Multiselect from "vue-multiselect";
 import { mapState } from "vuex";
+import add from "../../mixins/add";
 export default {
   $_veeValidate: {
     validator: "new"
@@ -143,6 +144,7 @@ export default {
   },
   data() {
     return {
+      actions: "Useractions",
       url: "api/users",
       submitted: true,
       form: {
@@ -154,6 +156,7 @@ export default {
       }
     };
   },
+  mixins: [add],
   computed: {
     ...mapState(["roles"])
   },
@@ -164,50 +167,7 @@ export default {
     getlist() {
       this.$store.dispatch("Roleactions");
     },
-    add(id) {
-      this.$validator.validate().then(valid => {
-        if (valid) {
-          if (id) {
-            let url = `${this.url}/${id}`;
-            axios
-              .put(url, this.form)
-              .then(response => {
-                this.$store.dispatch("Useractions");
-                Swal.fire({
-                  position: "center",
-                  icon: "success",
-                  title: `${response.data.message}`,
-                  showConfirmButton: false,
-                  timer: 1500
-                });
-                $("#model").modal("hide");
-                this.clear();
-              })
-              .catch(error => {
-                console.log(error.response);
-              });
-          } else {
-            axios
-              .post(this.url, this.form)
-              .then(response => {
-                Swal.fire({
-                  position: "center",
-                  icon: "success",
-                  title: `${response.data.message}`,
-                  showConfirmButton: false,
-                  timer: 1500
-                });
-                $("#model").modal("hide");
-                this.$store.dispatch("Useractions");
-                this.clear();
-              })
-              .catch(error => {
-                console.log(error.response);
-              });
-          }
-        }
-      });
-    },
+
     show(row) {
       this.form.id = row.id;
       this.form.name = row.name;

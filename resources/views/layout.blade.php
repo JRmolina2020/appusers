@@ -45,7 +45,6 @@
   <div class="float-right d-none d-sm-inline">
     <span class="float-right badge bg-primary">{{ Auth::user()->email}}</span>
   </div>
-  <strong>Copyright &copy; 2020</strong> JRMOLINA All rights reserved.
 </footer>
 </div> 
 @include('footer')

@@ -5,9 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
-
-
-
 class RoleController extends Controller
 {
     /**
@@ -18,7 +15,7 @@ class RoleController extends Controller
     public function index(Request $request)
     {;
         if (!$request->ajax()) return redirect('/');
-        $roles = Role::with('permissions')->orderBy('id', 'desc')->get();
+        $roles = Role::with('permissions:id,name')->orderBy('id', 'desc')->get();
         return response()->json($roles);
     }
 
@@ -54,17 +51,5 @@ class RoleController extends Controller
         ])->save();
         $roles->syncPermissions($request['permissions']);
         return response()->json(['message' => 'El rol ha sido modificado'], 201);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-
-        //
     }
 }

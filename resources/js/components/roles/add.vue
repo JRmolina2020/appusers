@@ -16,7 +16,7 @@
       </section>
       <section slot="titlebutton">Registrar roles</section>
       <section slot="body">
-        <form method="POST" @submit.prevent="add(form.id)" autocomplete="off">
+        <form method="POST" @submit.prevent="add(form.id,action)" autocomplete="off">
           <div class="form-group">
             <label for>Nombre</label>
             <input
@@ -82,6 +82,7 @@
 </template>
 <script>
 import ModalResource from "../utilities/modal.vue";
+import add from "../../mixins/add";
 import { mapState } from "vuex";
 export default {
   $_veeValidate: {
@@ -93,6 +94,7 @@ export default {
   },
   data() {
     return {
+      action: "Roleactions",
       url: "api/roles",
       submitted: true,
       rolesitem: [],
@@ -103,6 +105,7 @@ export default {
       }
     };
   },
+  mixins: [add],
   computed: {
     ...mapState(["permissions"])
   },
@@ -112,50 +115,6 @@ export default {
   methods: {
     getlist() {
       this.$store.dispatch("Permissionsactions");
-    },
-    add(id) {
-      this.$validator.validate().then(valid => {
-        if (valid) {
-          if (id) {
-            let url = `${this.url}/${id}`;
-            axios
-              .put(url, this.form)
-              .then(response => {
-                this.$store.dispatch("Roleactions");
-                Swal.fire({
-                  position: "center",
-                  icon: "success",
-                  title: `${response.data.message}`,
-                  showConfirmButton: false,
-                  timer: 1500
-                });
-                $("#model").modal("hide");
-                this.clear();
-              })
-              .catch(error => {
-                console.log(error.response);
-              });
-          } else {
-            axios
-              .post(this.url, this.form)
-              .then(response => {
-                Swal.fire({
-                  position: "center",
-                  icon: "success",
-                  title: `${response.data.message}`,
-                  showConfirmButton: false,
-                  timer: 1500
-                });
-                $("#model").modal("hide");
-                this.$store.dispatch("Roleactions");
-                this.clear();
-              })
-              .catch(error => {
-                console.log(error.response);
-              });
-          }
-        }
-      });
     },
     show(row) {
       this.status = true;

@@ -2042,6 +2042,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utilities_modal_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utilities/modal.vue */ "./resources/js/components/utilities/modal.vue");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _mixins_add__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../mixins/add */ "./resources/js/mixins/add.js");
+/* harmony import */ var _mixins_add__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_mixins_add__WEBPACK_IMPORTED_MODULE_2__);
 //
 //
 //
@@ -2095,6 +2097,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2102,11 +2105,13 @@ __webpack_require__.r(__webpack_exports__);
     validator: "new"
   },
   name: "add",
+  mixins: [_mixins_add__WEBPACK_IMPORTED_MODULE_2___default.a],
   components: {
     ModalResource: _utilities_modal_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   data: function data() {
     return {
+      action: "Permissionsactions",
       url: "api/permissions",
       submitted: true,
       form: {
@@ -2117,50 +2122,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {},
   methods: {
-    add: function add(id) {
-      var _this = this;
-
-      this.$validator.validate().then(function (valid) {
-        if (valid) {
-          if (id) {
-            var url = "".concat(_this.url, "/").concat(id);
-            axios.put(url, _this.form).then(function (response) {
-              _this.$store.dispatch("Permissionsactions");
-
-              Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "".concat(response.data.message),
-                showConfirmButton: false,
-                timer: 1500
-              });
-              $("#model").modal("hide");
-
-              _this.clear();
-            })["catch"](function (error) {
-              console.log(error.response);
-            });
-          } else {
-            axios.post(_this.url, _this.form).then(function (response) {
-              Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "".concat(response.data.message),
-                showConfirmButton: false,
-                timer: 1500
-              });
-              $("#model").modal("hide");
-
-              _this.$store.dispatch("Permissionsactions");
-
-              _this.clear();
-            })["catch"](function (error) {
-              console.log(error.response);
-            });
-          }
-        }
-      });
-    },
     show: function show(row) {
       this.status = true;
       this.form.name = row.name;
@@ -2220,23 +2181,19 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _utilities_search__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utilities/search */ "./resources/js/components/utilities/search.vue");
-/* harmony import */ var _utilities_loader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utilities/loader */ "./resources/js/components/utilities/loader.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
+/* harmony import */ var _utilities_search__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utilities/search */ "./resources/js/components/utilities/search.vue");
+/* harmony import */ var _utilities_loader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utilities/loader */ "./resources/js/components/utilities/loader.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
 //
 //
 //
@@ -2284,8 +2241,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "list",
   components: {
-    SearchItem: _utilities_search__WEBPACK_IMPORTED_MODULE_1__["default"],
-    Loader: _utilities_loader__WEBPACK_IMPORTED_MODULE_2__["default"]
+    SearchItem: _utilities_search__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Loader: _utilities_loader__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
@@ -2293,48 +2250,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       totalPages: 0
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapState"])(["filters", "permissions", "status", "urlpermissions"])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(["filters", "permissions", "status"])),
   created: function created() {
     this.getlist();
   },
   methods: {
     getlist: function getlist() {
       this.$store.dispatch("Permissionsactions");
-    },
-    remove: function remove(row) {
-      var _this = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var url, response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                url = _this.urlpermissions + row;
-                _context.next = 3;
-                return axios["delete"](url);
-
-              case 3:
-                response = _context.sent;
-
-                try {
-                  _this.getlist();
-
-                  Swal.fire({
-                    title: "".concat(response.data.message),
-                    icon: "success"
-                  });
-                } catch (error) {
-                  console.log(error);
-                }
-
-              case 5:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
     }
   }
 });
@@ -2351,7 +2273,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utilities_modal_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utilities/modal.vue */ "./resources/js/components/utilities/modal.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _mixins_add__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../mixins/add */ "./resources/js/mixins/add.js");
+/* harmony import */ var _mixins_add__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_mixins_add__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2442,6 +2366,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   $_veeValidate: {
     validator: "new"
@@ -2452,6 +2377,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
+      action: "Roleactions",
       url: "api/roles",
       submitted: true,
       rolesitem: [],
@@ -2462,7 +2388,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(["permissions"])),
+  mixins: [_mixins_add__WEBPACK_IMPORTED_MODULE_1___default.a],
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(["permissions"])),
   created: function created() {
     this.getlist();
   },
@@ -2470,58 +2397,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getlist: function getlist() {
       this.$store.dispatch("Permissionsactions");
     },
-    add: function add(id) {
-      var _this = this;
-
-      this.$validator.validate().then(function (valid) {
-        if (valid) {
-          if (id) {
-            var url = "".concat(_this.url, "/").concat(id);
-            axios.put(url, _this.form).then(function (response) {
-              _this.$store.dispatch("Roleactions");
-
-              Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "".concat(response.data.message),
-                showConfirmButton: false,
-                timer: 1500
-              });
-              $("#model").modal("hide");
-
-              _this.clear();
-            })["catch"](function (error) {
-              console.log(error.response);
-            });
-          } else {
-            axios.post(_this.url, _this.form).then(function (response) {
-              Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "".concat(response.data.message),
-                showConfirmButton: false,
-                timer: 1500
-              });
-              $("#model").modal("hide");
-
-              _this.$store.dispatch("Roleactions");
-
-              _this.clear();
-            })["catch"](function (error) {
-              console.log(error.response);
-            });
-          }
-        }
-      });
-    },
     show: function show(row) {
-      var _this2 = this;
+      var _this = this;
 
       this.status = true;
       this.form.id = row.id;
       this.form.name = row.name;
       row.permissions.forEach(function (element) {
-        _this2.rolesitem.push(element.name);
+        _this.rolesitem.push(element.name);
       });
       this.form.permissions = this.rolesitem;
       $("#model").modal("show");
@@ -2635,6 +2518,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -2646,10 +2533,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       currentPage: 1,
-      totalPages: 2
+      totalPages: 0
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(["filters", "roles", "status", "urlroles"])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(["filters", "roles", "status"])),
   created: function created() {
     this.getlist();
   },
@@ -2675,6 +2562,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _mixins_add__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../mixins/add */ "./resources/js/mixins/add.js");
+/* harmony import */ var _mixins_add__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_mixins_add__WEBPACK_IMPORTED_MODULE_3__);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2814,6 +2703,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   $_veeValidate: {
     validator: "new"
@@ -2825,6 +2715,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
+      actions: "Useractions",
       url: "api/users",
       submitted: true,
       form: {
@@ -2836,6 +2727,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     };
   },
+  mixins: [_mixins_add__WEBPACK_IMPORTED_MODULE_3___default.a],
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(["roles"])),
   created: function created() {
     this.getlist();
@@ -2843,50 +2735,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   methods: {
     getlist: function getlist() {
       this.$store.dispatch("Roleactions");
-    },
-    add: function add(id) {
-      var _this = this;
-
-      this.$validator.validate().then(function (valid) {
-        if (valid) {
-          if (id) {
-            var url = "".concat(_this.url, "/").concat(id);
-            axios.put(url, _this.form).then(function (response) {
-              _this.$store.dispatch("Useractions");
-
-              Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "".concat(response.data.message),
-                showConfirmButton: false,
-                timer: 1500
-              });
-              $("#model").modal("hide");
-
-              _this.clear();
-            })["catch"](function (error) {
-              console.log(error.response);
-            });
-          } else {
-            axios.post(_this.url, _this.form).then(function (response) {
-              Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "".concat(response.data.message),
-                showConfirmButton: false,
-                timer: 1500
-              });
-              $("#model").modal("hide");
-
-              _this.$store.dispatch("Useractions");
-
-              _this.clear();
-            })["catch"](function (error) {
-              console.log(error.response);
-            });
-          }
-        }
-      });
     },
     show: function show(row) {
       this.form.id = row.id;
@@ -3063,6 +2911,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -3077,7 +2929,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
-      rodo: "",
       currentPage: 1,
       totalPages: 0
     };
@@ -55547,7 +55398,10 @@ var render = function() {
     [
       _c(
         "ul",
-        { staticClass: "pagination pagination-sm no-margin pull-right" },
+        {
+          staticClass: "pagination pagination-sm justify-content-center",
+          staticStyle: { margin: "20px 0" }
+        },
         [
           _vm.boundaryLinks
             ? _c(
@@ -56156,7 +56010,7 @@ var render = function() {
                 on: {
                   submit: function($event) {
                     $event.preventDefault()
-                    return _vm.add(_vm.form.id)
+                    return _vm.add(_vm.form.id, _vm.action)
                   }
                 }
               },
@@ -56308,7 +56162,7 @@ var render = function() {
                       data: _vm.permissions,
                       currentPage: _vm.currentPage,
                       filters: _vm.filters,
-                      pageSize: 5
+                      pageSize: 4
                     },
                     on: {
                       "update:currentPage": function($event) {
@@ -56377,6 +56231,7 @@ var render = function() {
                 _c("smart-pagination", {
                   attrs: {
                     currentPage: _vm.currentPage,
+                    maxPageLinks: 6,
                     totalPages: _vm.totalPages
                   },
                   on: {
@@ -56463,7 +56318,7 @@ var render = function() {
                 on: {
                   submit: function($event) {
                     $event.preventDefault()
-                    return _vm.add(_vm.form.id)
+                    return _vm.add(_vm.form.id, _vm.action)
                   }
                 }
               },
@@ -56702,7 +56557,7 @@ var render = function() {
                       data: _vm.roles,
                       currentPage: _vm.currentPage,
                       filters: _vm.filters,
-                      pageSize: 3
+                      pageSize: 5
                     },
                     on: {
                       "update:currentPage": function($event) {
@@ -56771,6 +56626,7 @@ var render = function() {
                 _c("smart-pagination", {
                   attrs: {
                     currentPage: _vm.currentPage,
+                    maxPageLinks: 6,
                     totalPages: _vm.totalPages
                   },
                   on: {
@@ -56860,7 +56716,7 @@ var render = function() {
                 on: {
                   submit: function($event) {
                     $event.preventDefault()
-                    return _vm.add(_vm.form.id)
+                    return _vm.add(_vm.form.id, _vm.actions)
                   }
                 }
               },
@@ -57353,6 +57209,7 @@ var render = function() {
                 _c("smart-pagination", {
                   attrs: {
                     currentPage: _vm.currentPage,
+                    maxPageLinks: 6,
                     totalPages: _vm.totalPages
                   },
                   on: {
@@ -73071,6 +72928,64 @@ module.exports = {
     },
     isAuthenticated: function isAuthenticated() {
       return !!user.content;
+    }
+  }
+};
+
+/***/ }),
+
+/***/ "./resources/js/mixins/add.js":
+/*!************************************!*\
+  !*** ./resources/js/mixins/add.js ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = {
+  methods: {
+    add: function add(id, actions) {
+      var _this = this;
+
+      this.$validator.validate().then(function (valid) {
+        if (valid) {
+          if (id) {
+            var url = "".concat(_this.url, "/").concat(id);
+            axios.put(url, _this.form).then(function (response) {
+              _this.$store.dispatch(actions);
+
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "".concat(response.data.message),
+                showConfirmButton: false,
+                timer: 1500
+              });
+              $("#model").modal("hide");
+
+              _this.clear();
+            })["catch"](function (error) {
+              console.log(error.response);
+            });
+          } else {
+            axios.post(_this.url, _this.form).then(function (response) {
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "".concat(response.data.message),
+                showConfirmButton: false,
+                timer: 1500
+              });
+              $("#model").modal("hide");
+
+              _this.$store.dispatch(actions);
+
+              _this.clear();
+            })["catch"](function (error) {
+              console.log(error.response);
+            });
+          }
+        }
+      });
     }
   }
 };

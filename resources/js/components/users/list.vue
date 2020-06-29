@@ -85,7 +85,11 @@
         </v-table>
       </div>
       <div class="box-footer clearfix">
-        <smart-pagination :currentPage.sync="currentPage" :totalPages="totalPages" />
+        <smart-pagination
+          :currentPage.sync="currentPage"
+          :maxPageLinks="6"
+          :totalPages="totalPages"
+        />
       </div>
     </div>
   </div>
@@ -95,7 +99,7 @@ import SearchItem from "../utilities/search";
 import TestView from "../utilities/testview";
 import Loader from "../utilities/loader";
 import ModalPassword from "./modalpassword";
-import { mapState, mapMutations, mapActions } from "vuex";
+import { mapState } from "vuex";
 export default {
   components: {
     SearchItem,
@@ -105,7 +109,6 @@ export default {
   },
   data() {
     return {
-      rodo: "",
       currentPage: 1,
       totalPages: 0
     };

@@ -11,7 +11,7 @@
           :data="roles"
           :currentPage.sync="currentPage"
           :filters="filters"
-          :pageSize="3"
+          :pageSize="5"
           @totalPagesChanged="totalPages = $event"
           class="table table-striped"
         >
@@ -34,7 +34,11 @@
         </v-table>
       </div>
       <div class="box-footer clearfix">
-        <smart-pagination :currentPage.sync="currentPage" :totalPages="totalPages" />
+        <smart-pagination
+          :currentPage.sync="currentPage"
+          :maxPageLinks="6"
+          :totalPages="totalPages"
+        />
       </div>
     </div>
   </div>
@@ -42,7 +46,7 @@
 <script>
 import SearchItem from "../utilities/search";
 import Loader from "../utilities/loader";
-import { mapState, mapMutations, mapActions } from "vuex";
+import { mapState } from "vuex";
 export default {
   components: {
     SearchItem,
@@ -51,11 +55,11 @@ export default {
   data() {
     return {
       currentPage: 1,
-      totalPages: 2
+      totalPages: 0
     };
   },
   computed: {
-    ...mapState(["filters", "roles", "status", "urlroles"])
+    ...mapState(["filters", "roles", "status"])
   },
   created() {
     this.getlist();
